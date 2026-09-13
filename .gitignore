@@ -1,0 +1,9 @@
+node_modules/
+.mcp.json
+*.log
+.DS_Store
+
+# never commit anything that could hold a credential
+session.json
+.env
+.env.*

@@ -1,0 +1,41 @@
+{
+  "name": "bubble-agent",
+  "version": "1.0.0",
+  "description": "Read and write Bubble.io apps from Claude Code, over Bubble's editor API, with verification against the running app.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "bubble-agent": "src/cli.mjs"
+  },
+  "main": "src/core/index.mjs",
+  "exports": {
+    ".": "./src/core/index.mjs",
+    "./mcp": "./src/mcp/server.mjs"
+  },
+  "files": [
+    "src",
+    "skill",
+    "README.md",
+    "SECURITY.md"
+  ],
+  "scripts": {
+    "setup": "node src/cli.mjs setup",
+    "doctor": "node src/cli.mjs doctor",
+    "mcp": "node src/mcp/server.mjs",
+    "test": "node --test \"test/*.test.mjs\""
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.25.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "bubble",
+    "bubble.io",
+    "mcp",
+    "claude",
+    "no-code"
+  ]
+}

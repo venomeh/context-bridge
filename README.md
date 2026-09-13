@@ -1,5 +1,7 @@
 # bubble-agent
 
+**Repository:** https://github.com/venomeh/context-bridge
+
 Read and change a [Bubble.io](https://bubble.io) app from Claude Code — or from plain
 Node — over Bubble's own editor API, with every write verified against the running app.
 
@@ -33,8 +35,8 @@ out of the **running app** rather than the export.
 ## Install
 
 ```bash
-git clone https://github.com/<you>/bubble-agent
-cd bubble-agent
+git clone https://github.com/venomeh/context-bridge.git
+cd context-bridge
 npm install
 node src/cli.mjs setup
 ```

@@ -66,8 +66,14 @@ Returns the entire app as one JSON object (1.76 MB / 9 pages for the test app).
 `<version>` is `test` or `live` — **never a branch**; branches are unreachable through
 this endpoint, confirmed by five independent measurements.
 
-**Requires a paid Bubble plan.** A free app returns 401. Without the export there are no
-ids and no paths, so free apps cannot be used at all. This defines the audience.
+**401 means your account is not on that app.** The cookie is account-scoped, so the export
+is refused for any app the account does not have editor access to. Adding yourself as a
+collaborator fixes it immediately — same cookie, no re-auth.
+
+Worth stating because it was originally diagnosed wrongly: one app returning 401 while
+another returned 200 on the same cookie was written up as Bubble gating export behind a
+paid plan. It was not. The account simply had not been invited to the second app. Nothing
+here is known about how plans affect export access — do not assume they do.
 
 ### 3.3 Writing
 

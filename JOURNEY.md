@@ -80,11 +80,25 @@ never a branch. There is no way to read a branch's contents. The write policy ha
 all agent work would happen on an isolated branch; that assumption was deleted and
 replaced with savepoints plus verification against `main`.
 
-### Free apps — plan-gated
+### A 401 on export — diagnosed wrongly, twice
 
-Deferred early, then measured properly at the end: one cookie opens the *editor* for both
-a paid and a free app, but `appeditor/export` returns 200 for the paid one and **401** for
-the free one. So the block is the plan, not the account. Free apps cannot be used at all.
+One cookie read app A's export (200) and was refused app B's (401), while the *editor
+page* loaded for both. This was written up as proof that **Bubble gates export behind a
+paid plan**.
+
+It was not. The account had simply never been invited to app B. Once the owner added
+themselves as a collaborator, the same cookie read it.
+
+Two wrong explanations were published before the right one arrived. The first invented a
+plan gate from a single 401. The second, on seeing the 401 clear, called it an unexplained
+transient — also invented, and arguably worse, because it dressed a guess up as
+uncertainty. Neither was measured; the actual cause came from the person who had changed
+the permission.
+
+The lesson is narrow and worth keeping: an observation is not an explanation. "App B
+returns 401" was solid. Everything attached to *why* was fiction until someone who knew
+said so. When a cause cannot be measured, name it as unknown and stop — or better, ask the
+one person who can see what changed.
 
 ---
 

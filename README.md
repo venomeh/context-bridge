@@ -27,10 +27,10 @@ out of the **running app** rather than the export.
 ## Requirements
 
 - **Node 20+**
-- **A paid Bubble plan on the app you want to work on.** Bubble gates the JSON export
-  behind a paid plan, and without the export there are no ids or paths to address. Free
-  apps return 401 and cannot be used.
-- A Bubble account you own or have editor access to.
+- **An app your Bubble account has editor access to.** Everything here is addressed from
+  the app's JSON export, and Bubble refuses that export with a 401 for an app your account
+  is not on. If you get a 401, check you are actually a collaborator on that app — adding
+  yourself fixes it. `doctor` reports this clearly.
 
 ## Install
 
@@ -126,7 +126,7 @@ Bubble.
 ## Limits
 
 - Branches are not reachable — the export endpoint takes a version, never a branch.
-- Free-plan apps cannot be used at all.
+- If the export is refused, nothing works — there are no ids or paths without it.
 - These are Bubble's internal editor endpoints, not a published API. They are stable in
   practice but carry no compatibility promise.
 

@@ -41,17 +41,83 @@ npm install
 node src/cli.mjs setup
 ```
 
-`setup` walks you through it: the cookie, the app id, the dev-version password, and it
-writes an `.mcp.json` so Claude Code picks the server up.
-
-If your app's dev-version protection has a **username as well as a password**, enter both
-at that prompt as `username:password`. A colon inside the password itself is fine — only
-the first one separates the two. Then restart Claude Code in
-that directory and ask it about your app.
+`setup` asks for three things and then writes an `.mcp.json` so Claude Code picks the
+server up. Getting each one is below. Afterwards:
 
 ```bash
-node src/cli.mjs doctor    # diagnose anything that is not working
+node src/cli.mjs doctor    # green means ready
 ```
+
+Then start Claude Code **in that same folder** and ask it about your app.
+
+## What setup asks for
+
+Do all of this in the browser on the machine you are setting up, logged into Bubble.
+
+### 1. The session cookie
+
+Not one cookie — the whole `Cookie:` header, which is every cookie joined together. The
+reliable way to get it:
+
+1. Open your app in the Bubble editor
+2. Press **⌥⌘I** (Mac) or **F12** to open DevTools
+3. Go to the **Network** tab
+4. Type `appeditor` in the filter box — this keeps only requests to Bubble itself
+5. Reload the page (⌘R) so requests appear
+6. Click any row in the list
+7. On the right, find **Headers** → **Request Headers** → the line beginning `Cookie:`
+8. Copy everything after `Cookie:`
+
+The filter in step 4 matters. A Bubble editor page also loads Google Analytics, Stripe,
+Intercom and others; those requests carry *their* cookies, not yours, and copying one of
+those will not work.
+
+What you should have: a long string, usually over a thousand characters, containing
+`meta_live_u2main=` and `meta_u1main=` somewhere in it. If it is short, or has neither,
+you picked a third-party request — go back to step 4.
+
+> The DevTools **Application → Cookies** view shows the same cookies in a table, but you
+> would have to reassemble them by hand. Use the Network tab.
+
+### 2. The app id
+
+Open the project in the Bubble editor and look at the address bar:
+
+```
+https://bubble.io/page?id=my-project-12345&tab=Design&name=index&version=test
+                        └──────┬───────┘
+                         this is the app id
+```
+
+It is what sits between `id=` and the next `&`. In that example, `my-project-12345`.
+
+### 3. The dev-version password
+
+Only if the app has one: **Settings → General → "Password to protect the dev version"**.
+Leave it blank if it does not — everything still works, but changes can no longer be
+verified against the running app, and the tool will say so rather than pretend.
+
+That setting can have a **username as well as a password**. Enter both on the one line,
+separated by a colon:
+
+| the app has | type this |
+|---|---|
+| password `hunter2`, no username | `hunter2` |
+| username `admin`, password `hunter2` | `admin:hunter2` |
+| username `admin`, password `pa:ss` | `admin:pa:ss` |
+
+Only the **first** colon separates the two, so a colon inside the password is fine.
+
+Nothing appears as you type the cookie or the password — that is deliberate, not a
+frozen prompt. Type and press Enter.
+
+### When the cookie expires
+
+Roughly every twelve hours. `doctor` will tell you, and you just run `setup` again with a
+fresh cookie. Nothing else needs redoing.
+
+One cookie is full read and write access to **every** Bubble app on your account, not
+just the one you are setting up. Log out of Bubble to kill it instantly if you need to.
 
 ## What Claude can then do
 

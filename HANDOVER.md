@@ -115,6 +115,9 @@ https://<app>.bubbleapps.io/version-<version>/<page>
 ```
 
 Behind HTTP basic auth if the dev version is password protected (Settings → General).
+That setting can carry a username as well as a password; supply them as
+`username:password`, splitting on the first colon only so a colon in the password
+survives.
 The page's HTML references three bundles:
 
 | bundle | contains |

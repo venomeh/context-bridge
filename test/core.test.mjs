@@ -232,3 +232,25 @@ test('a mixed snapshot refuses only the unsafe entries', () => {
   assert.deepEqual(unsafe, ['C']);
   assert.deepEqual(changes.map((c) => c.path), ['A', 'B']);
 });
+
+// ------------------------------------------- dev password parsing (regression)
+
+import { splitDevPassword } from '../src/core/runtime.mjs';
+
+test('a dev password with no username is sent with an empty user', () => {
+  assert.deepEqual(splitDevPassword('secret'), { user: '', pass: 'secret' });
+});
+
+test('username:password splits on the first colon', () => {
+  assert.deepEqual(splitDevPassword('admin:secret'), { user: 'admin', pass: 'secret' });
+});
+
+test('REGRESSION: a colon inside the password is preserved, not truncated', () => {
+  // splitting on every colon silently dropped everything after the second one,
+  // producing an auth failure with nothing to point at
+  assert.deepEqual(splitDevPassword('admin:pa:ss:word'), { user: 'admin', pass: 'pa:ss:word' });
+});
+
+test('a leading colon means no username', () => {
+  assert.deepEqual(splitDevPassword(':onlypass'), { user: '', pass: 'onlypass' });
+});

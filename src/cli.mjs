@@ -180,7 +180,8 @@ async function setup() {
     console.log(DIM('  export cannot show a write that silently did nothing. If your dev version'));
     console.log(DIM('  is password protected, give that password so verification can work.'));
     console.log(DIM('  Settings → General → "Password to protect the dev version".'));
-    const devPassword = await ask(rl, '\n  dev password (blank if none): ', { secret: true });
+    console.log(DIM('  If that setting also has a username, enter it as  username:password'));
+    const devPassword = await ask(rl, '\n  dev password, or username:password (blank if none): ', { secret: true });
 
     process.stdout.write('  opening the app… ');
     let ctx;

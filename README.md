@@ -42,7 +42,11 @@ node src/cli.mjs setup
 ```
 
 `setup` walks you through it: the cookie, the app id, the dev-version password, and it
-writes an `.mcp.json` so Claude Code picks the server up. Then restart Claude Code in
+writes an `.mcp.json` so Claude Code picks the server up.
+
+If your app's dev-version protection has a **username as well as a password**, enter both
+at that prompt as `username:password`. A colon inside the password itself is fine — only
+the first one separates the two. Then restart Claude Code in
 that directory and ask it about your app.
 
 ```bash

@@ -31,12 +31,24 @@ export function runtimeUrl(appname, { version = 'test', page = '', origin } = {}
   return `${base}/version-${version}${path}`.replace(/\/+$/, (m) => (path === '/' ? '/' : m));
 }
 
+/**
+ * Basic-auth header for the running app's dev-version protection.
+ *
+ * `devPassword` is "username:password", or just "password" when the app sets no
+ * username. Split on the FIRST colon only — a colon is legal inside a password, and
+ * splitting on all of them silently truncated it, producing an auth failure with
+ * nothing to point at.
+ */
+export function splitDevPassword(devPassword) {
+  const raw = String(devPassword ?? '');
+  const at = raw.indexOf(':');
+  return at >= 0 ? { user: raw.slice(0, at), pass: raw.slice(at + 1) } : { user: '', pass: raw };
+}
+
 function authHeaders(devPassword) {
   const h = { 'User-Agent': UA };
   if (devPassword) {
-    const [user, pass] = String(devPassword).includes(':')
-      ? String(devPassword).split(':')
-      : ['', String(devPassword)];
+    const { user, pass } = splitDevPassword(devPassword);
     h.Authorization = `Basic ${Buffer.from(`${user}:${pass}`).toString('base64')}`;
   }
   return h;
